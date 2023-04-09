@@ -2,30 +2,41 @@ package Question1;
 
 public class Question1 {
 
-    public int TimeToServeAllPassengers(int rowsInPlane, int[] i) {
+    public static int TimeToServeAllPassengers(int rowsInPlane, int[] i) {
         int timeToServePasseger = 0;
         int potServeAtTime = 7;
-        int currentPositionOfFlighrAttendant = 1;
-        for (int row = 0; row < i.length; row++) {
-            int nextRow = i[row];
-            if (nextRow > currentPositionOfFlighrAttendant) {
-                timeToServePasseger += (nextRow - currentPositionOfFlighrAttendant) * 1;
-                currentPositionOfFlighrAttendant = nextRow;
+
+        for (int row = 1; row <= rowsInPlane; row++) {
+            if (checkRow(i, row)) {
+                if (potServeAtTime == 0) {
+                    potServeAtTime = 7;
+                    timeToServePasseger += 30;
+                }
+
+                timeToServePasseger += 3;
+                potServeAtTime--;
             }
 
-            if (potServeAtTime == 0) {
-                timeToServePasseger += 30;
-                potServeAtTime = 7;
-            }
-
-
-            timeToServePasseger += 3;
-            potServeAtTime--;
-            currentPositionOfFlighrAttendant++;
+            timeToServePasseger++;
         }
-        timeToServePasseger += (rowsInPlane - currentPositionOfFlighrAttendant + 1) * 1; // Moving to the front of the plane - takes 1sec for 1 row
+
+        // After serving all passengers, return to the front of the plane, add 1 second for each row
+        timeToServePasseger += rowsInPlane;
+
         return timeToServePasseger;
     }
+
+
+    //check if this is the row where passenger want to order coffee
+    public static boolean checkRow(int[] i, int row) {
+        for (int r : i) {
+            if (r == row) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }
 
